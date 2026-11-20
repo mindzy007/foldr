@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div align="center">
 
 <img src="icon.png" alt="Foldr" width="96" height="96">
