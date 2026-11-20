@@ -1602,6 +1602,23 @@ def draw_chevron(img, cx, cy, color, flip=0.0):
     _paste_layer(img, lay, ss, cx, cy)
 
 
+_CORNER_CACHE = {}
+
+
+def _top_round_mask(w, h, r):
+    """Alpha mask with rounded top corners and straight sides/bottom. Same look as cropping a
+    full-width supersampled rounded rect, but built from two cached corners (cheap while resizing)."""
+    corners = _CORNER_CACHE.get(r)
+    if corners is None:
+        alpha = rrect(2 * r, 2 * r, r, (255, 255, 255, 255)).getchannel("A")
+        corners = _CORNER_CACHE[r] = (alpha.crop((0, 0, r, r)), alpha.crop((r, 0, 2 * r, r)))
+    mask = Image.new("L", (w, h), 255)
+    if w >= 2 * r and h >= r:
+        mask.paste(corners[0], (0, 0))
+        mask.paste(corners[1], (w - r, 0))
+    return mask
+
+
 def commandbar_image(w, h, pals, active, A, bg=None):
     """Windows Fluent-style command bar: color swatches on the left, sort dropdown + icon-size
     segmented control on the right. A holds the animated 0..1 values (hover / selected / slide).
@@ -1838,6 +1855,7 @@ class CommandBar(tk.Frame):
         self.flyout, self._closed_at, self._bw, self._skip_click = None, 0.0, 0, False
         self.A, self._tick_job, self._last = {}, None, 0.0
         self._bg, self._bg_key = None, None
+        self._cfg_job, self._cfg_last = None, 0.0
         self.label = tk.Label(self, bd=0, highlightthickness=0, bg=CARD)
         self.label.pack(fill="both", expand=True)
         self.bind("<Configure>", self._configure)
@@ -1888,8 +1906,17 @@ class CommandBar(tk.Frame):
         return T
 
     def _configure(self, e):
+        """Many <Configure> events arrive while resizing: redraw at most ~30 times a second."""
         if e.width != self._bw:
             self._bw = e.width
+            if self._cfg_job is None:
+                wait = max(0, int(33 - (time.monotonic() - self._cfg_last) * 1000))
+                self._cfg_job = self.after(wait, self._apply_width)
+
+    def _apply_width(self):
+        self._cfg_job = None
+        self._cfg_last = time.monotonic()
+        if self.winfo_exists():
             self.A = self._targets()
             self._draw()
 
@@ -1936,8 +1963,8 @@ class CommandBar(tk.Frame):
         key = (wp, ht)
         if getattr(self, "_mask_key", None) != key:
             self._mask_key = key
-            self._outer = rrect(wp, ht + r, r, (255, 255, 255, 255)).crop((0, 0, wp, ht)).getchannel("A")
-            self._inner = rrect(wi, h + r, max(1, r - bw), (255, 255, 255, 255)).crop((0, 0, wi, h)).getchannel("A")
+            self._outer = _top_round_mask(wp, ht, r)
+            self._inner = _top_round_mask(wi, h, max(1, r - bw))
         out = Image.new("RGB", (wp, ht), BG)
         out.paste(Image.new("RGB", (wp, ht), STROKE), (0, 0), self._outer)
         out.paste(inner, (bw, bw), self._inner)
