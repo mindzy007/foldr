@@ -2202,7 +2202,7 @@ class App:
 
         self.icon_area = ScrollArea(right.inner)
         self.icon_area.pack(fill="both", expand=True, padx=px(2))
-        self.icon_area.sb.pack_configure(pady=(px(CommandBar.HEIGHT) + px(4), px(6)))
+        self.icon_area.sb.pack_configure(pady=(px(CommandBar.HEIGHT) + px(4), px(8)))
         self.icon_area.on_resize = self.reflow
         self.toolbar = CommandBar(right, self)  # floats over the top of the panel + icon grid
         self.toolbar.place(x=0, y=0, relwidth=1, height=px(CommandBar.HEIGHT) + px(1))
