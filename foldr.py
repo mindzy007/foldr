@@ -16,6 +16,7 @@ from functools import lru_cache
 from tkinter import filedialog
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageGrab, ImageTk
+from version import APP_VERSION
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
 import core
@@ -31,7 +32,6 @@ ASSETS = os.path.join(BUNDLE, "assets")
 ICON_ORDER = ['Default', 'Important', 'Language', 'System', 'Command', 'Wrench', 'Hard Drive', 'Security', 'Password', 'Locked', 'Unlocked', 'Key', 'Game', 'Fonts', 'Capture', 'Picture', 'Video', 'Movies & TV', 'Calendar', 'Mail', 'Document', 'Note', 'Notepad', 'Data Line', 'Data Pie', 'Data Chart', 'Package', 'Grid', 'Library', 'Stack', 'Server', 'Devices', 'Live', 'Javascript', 'Number Symbol', 'Mention', 'Texture', 'Inbound', 'Outbound', 'Warning', 'Sticker', 'Compute', 'Shape', 'Favorite', 'Miscellaneous', 'Pinned', 'Location', 'Marker', 'Globe', 'Earth', 'Tagged', 'Click', 'Settings', 'Recycle', 'Delete', 'Pulse', 'Music', 'Microphone', 'Announcement', 'Users', 'User', 'Network', 'Lightning', 'Home', 'Github', 'Dropbox', 'MEGA', 'Visual Studio Code', 'Google Drive', 'Nvidia', 'Rockstar Games', 'Steam', 'Epic Games', 'VMware', 'iCloud', 'Adobe', 'Vercel', 'Slack']
 
 # ------------------------------------------------------------------ updates
-APP_VERSION = "26.11.10.2"  # bump with every release; must match the GitHub tag (without the "v")
 RELEASES_URL = "https://github.com/mindzy007/foldr/releases"
 LATEST_API = "https://api.github.com/repos/mindzy007/foldr/releases/latest"
 
