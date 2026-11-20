@@ -8,6 +8,8 @@
 
 <br>
 
+[![Support on Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-7c3aed?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/mindzy)
+&nbsp;
 [![Report a bug](https://img.shields.io/badge/Report-a%20bug-2b2b2b?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mindzy007/foldr/issues/new)
 &nbsp;
 [![Stars](https://img.shields.io/github/stars/mindzy007/foldr?style=for-the-badge&logo=github&logoColor=white&color=2b2b2b)](https://github.com/mindzy007/foldr/stargazers)
@@ -20,7 +22,7 @@
 
 Drop in your folders, pick an icon, and press **Apply**. Foldr sets the icon without admin rights and refreshes Explorer for you. Changed your mind? **Reset** puts the default icons back.
 
-Foldr is free and open source.
+Foldr is free and open source. If it saves you time, an optional donation on [Ko-fi](https://ko-fi.com/mindzy) is always appreciated.
 
 <br>
 
